@@ -68,28 +68,38 @@ class golBoard(object):
         alive = self.currentGen[r][c]
 
         print(self.getNeighborWindow(r,c))
-
-        # neighbors.append(self.currentGen[r-1][c-1])      # upper left
-        # neighbors.append(self.currentGen[r][c-1])        # upper middle   
-        # neighbors.append(self.currentGen[r+1][c-1])      # upper right
-        # neighbors.append(self.currentGen[r+1][c])        # right
-        # neighbors.append(self.currentGen[r-1][c])        # left 
-        # neighbors.append(self.currentGen[r-1][c+1])      # bottom left
-        # neighbors.append(self.currentGen[r][c+1])        # bottom middle 
-        # neighbors.append(self.currentGen[r+1][c+1])      # bottom right
+        negativerow,negativecol, positiverowOffset, positivecolOffset = 1
+        
+        if c == 0:
+            negativecol = self.width -1
+        if c == self.width - 1:
+            positivecolOffset = self.width + 1
+        if r == 0:
+            negativerow = self.height + 1
+        if r == self.height - 1:
+            positiverowOffset = self.height + 1 
             
-        # count = neighbors.count(True)
+        neighbors.append(self.currentGen[r-1][c-1])      # upper left
+        neighbors.append(self.currentGen[r][c-1])        # upper middle   
+        neighbors.append(self.currentGen[r+1][c-1])      # upper right
+        neighbors.append(self.currentGen[r+1][c])        # right
+        neighbors.append(self.currentGen[r-1][c])        # left 
+        neighbors.append(self.currentGen[r-1][c+1])      # bottom left
+        neighbors.append(self.currentGen[r][c+1])        # bottom middle 
+        neighbors.append(self.currentGen[r+1][c+1])      # bottom right
+            
+        count = neighbors.count(True)
 
-        # if(alive):
-        #     if count < 2 or count > 3:
-        #         return 0 
-        #     else:
-        #         return 1
-        # else:
-        #     if count == 3:
-        #         return 1
-        #     else:
-        #         return 0 
+        if(alive):
+            if count < 2 or count > 3:
+                return 0 
+            else:
+                return 1
+        else:
+            if count == 3:
+                return 1
+            else:
+                return 0 
         
  
     def getNeighborWindow(self,r,c):
