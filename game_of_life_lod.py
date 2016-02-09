@@ -69,7 +69,7 @@ class golBoard(object):
 
         print(self.getNeighborWindow(r,c))
         negativerow,negativecol, positiverowOffset, positivecolOffset = 1
-        
+        #border will look at neighbors
         if c == 0:
             negativecol = self.width -1
         if c == self.width - 1:
