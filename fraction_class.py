@@ -26,6 +26,7 @@ class fraction(object):
         else:
             return "%s and %s/%s" % (whole,n2,self,d) 
 
+#this method adds two fractions and give result in gcd form
     def __add__(self,otherfraction):
         newnum = self.numerator*otherfraction.denominator +self.denominator*otherfraction.numerator
         newden = self.denominator*otherfraction.denominator
