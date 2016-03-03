@@ -10,6 +10,17 @@ import sys
 
 url = 'http://thecatapi.com/api/images/get'
 
+def Cat(directory = None, filename = None, format = 'png'):
+    basename = '%s.%s' % (filename if filename else str(uuid.uuid4()), format)
+    savefile =  os.path.sep.join([directory.rstrip(os.path.sep), basename]) if directory else basename
+    downloadlink = url + '?type=%s' % format
+    http = urllib3.PoolManager()
+    r = http.request('GET', downloadlink)
+    fp = open(savefile, 'wb')
+    fp.write(r.data)
+    fp.close()
+    return savefile )
+
 class RandomCat(object):
 
     def __init__(self):
@@ -102,8 +113,11 @@ class AsciiImage(RandomCat):
         for pixel_value in all_pixels:
             index = pixel_value / 25 # 0 - 10
             self.imageAsAscii.append(self.asciiChars[index])
-
- """   def flip(self, direction):
+    """
+    @Description:image sould be flipped either horizantally or vertically
+    @Returns:flipped ascii image
+    """
+    def flip(self, direction):
         if direction == "horizontal":
             flipped_ascii = []
             temp = list(self.imageAsAscii, self.newWidth)
@@ -113,7 +127,22 @@ class AsciiImage(RandomCat):
             return flipped_ascii
         else
             flipped_ascii = self.imageAsAscii[-1]
-            return flipped_ascii"""
+            return flipped_ascii
+   """
+   @Description:Light pixels become dark pixel and vice versa
+   @Returns:inverted image
+   """
+    def invert(self):
+        self.imageAsAscii = []
+        imag = self.asciiChars
+        imag.reverse()
+        self.inverted = imag
+        all_pixels = list(self.newImage.getdata())
+        
+        for pixel_value in all_pixels:
+            index = pixel_value // 25
+            self.imageAsAscii.append(self.asciiChars[index])
+        return self.imageAsAscii    
     """
     Print the image to the screen
     """
@@ -144,4 +173,8 @@ if __name__=='__main__':
     awesomeCat.getImage()
     
     awesomeCat.convertToAscii()
+    awesomeCat.printImage()
+    awesomeCat.invert()
+    awesomeCat.printImage()
+    awesomeCat.flip("horizontal")
     awesomeCat.printImage()
