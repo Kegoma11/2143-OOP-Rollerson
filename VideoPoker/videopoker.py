@@ -133,17 +133,16 @@ class Hand(object):
     def sortHand(self):
         self.cards = sorted(self.cards)
 
-""" 
-   def process(self):
-        for card in self.cards:
-            rank = card.getRank()
-            rankIndex = Card.RANKS.index(rank)
-            self._myranks[rankIndex] += 1
-            suit = card.getSuit()
-            suitIndex = Card.SUITS.index(suit)
-            self._mysuits[suitIndex] += 1
-        return self._myranks[rankIndex]
-"""
+
+#   def process(self):
+ #       for card in self.cards:
+  #          rank = card.getRank()
+   #         rankIndex = Card.RANKS.index(rank)
+    #        self._myranks[rankIndex] += 1
+     #       suit = card.getSuit()
+      #      suitIndex = Card.SUITS.index(suit)
+       #     self._mysuits[suitIndex] += 1
+        #return self._myranks[rankIndex]
 
 class VideoPoker(object):
     def __init__(self):
@@ -188,7 +187,7 @@ class VideoPoker(object):
 
 class game_driver(VideoPoker):
     def __init__(self):
-        
+        super().__init__()
         self.totalScore = 0
 
     def menu(self):
@@ -209,7 +208,7 @@ class game_driver(VideoPoker):
         self.totalScore += playerScore
         print ("Your total score is: ", self.totalScore, '\n')
 
-    def print(self):
+    def printh(self):
         for card in self.hand.cards:
             print(str(card))
 
@@ -242,7 +241,7 @@ class game_driver(VideoPoker):
                     self.hand.replace(int(index)-1,cardreplace)
 
             print("\nNew Hand: ")
-            self.print()
+            self.printh()
             self.calculate()
             return True
     
