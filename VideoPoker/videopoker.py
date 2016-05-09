@@ -87,8 +87,16 @@ class Hand(object):
         return self._myranks[rankIndex]
 
 class VideoPoker(object):
-    def __init__(self, hand):
-        self.hand = hand
+    def __init__(self):
+        self.deck = Deck()
+        self.hand = Hand()
+        
+    #def deal(self, num =5):
+     #   self.deck.shuffle()
+      # for i in range(0,num):
+       #     self.hand.add(self.deal.pop())
+        #print(self.hand)
+        #return self.hand
 
     def checkHand(self):
         if royalFlush():
@@ -118,7 +126,7 @@ class VideoPoker(object):
 
 class game_driver(VideoPoker):
     def __init__(self):
-        super().__init__()
+        
         self.totalScore = 0
 
     def menu(self):
@@ -180,3 +188,5 @@ class game_driver(VideoPoker):
         loop = True
         while loop:
             loop = self.loop()
+g = game_driver()
+g.menu()
