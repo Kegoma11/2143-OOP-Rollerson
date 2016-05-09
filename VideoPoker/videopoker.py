@@ -46,11 +46,14 @@ class Deck(object):
         #return num of cards in deck
         return len(self.cards)
 
+    def sort(self):
+        random.shuffle(self.cards)
+
     def __str__(self):
-        result = ""
+        result = []
         for c in  self.cards:
-            result = result + str(c) + '\n'
-        return result
+            result.append(str(c))
+        return "".join(result)
 
 class Hand(object):
     def __init__(self, deck):
@@ -63,13 +66,15 @@ class Hand(object):
         self.rank = [0] * 14
         self.suit = [0] * 4
         self.process()
-        self.cards.sort(reverse = True)
 
     def __str__(self):
-        result = ""
+        result = []
         for card in self.cards:
-            result = result + str(card) + '\n'
-        return result
+            result.append(str(card))
+        return "".join(result)
+
+    def sortHand(self):
+        self.cards = sorted(self.cards)
 
     def process(self):
         for card in self.cards:
@@ -110,3 +115,68 @@ class VideoPoker(object):
             return 1
 
         return 0
+
+class game_driver(VideoPoker):
+    def __init__(self):
+        super().__init__()
+        self.totalScore = 0
+
+    def menu(self):
+        print("1.New Game")
+        print("2.Play Again")
+        print("3.Quit")
+        return input('')
+
+    def resethand(self):
+        self.hand = Hand()
+
+    def resetDeck(self):
+        self.deck = Deck()
+
+    def calculate(self):
+        playerScore = self.checkHand()
+        print ("Earned: ", playerScore)
+        self.totalScore += playerScore
+        print ("Your total score is: ", self.totalScore, '\n')
+
+    def print(self):
+        for card in self.hand.cards:
+            print(str(card))
+
+    def loop(self):
+        user = int(self.menu())
+        if user == 1:
+            print("Starting new game")
+            self.resetDeck()
+            self.totalScore = 0
+        elif user == 3:
+            print("Game Over")
+            return False
+            
+        if user == 1 or user == 2:
+            if len(self.deck.cards) < 5:
+                print("\nNot enough cards!")
+                print("Total score is: ",self.totalScore)
+                print("Starting game")
+                self.totalScore =0
+                self.resetDeck()
+                return True
+            self.resethand()
+            self.print()
+
+            user = input("Enter position of card(s) wanting to be removed,1-5(seperate with comma)")
+            if not user is '':
+                user = user.split(",")
+                for index in user:
+                    cardreplace = self.deck.pop()
+                    self.hand.replace(int(index)-1,cardreplace)
+
+            print("\nNew Hand: ")
+            self.print()
+            self.calculate()
+            return True
+    
+    def Start(self):
+        loop = True
+        while loop:
+            loop = self.loop()
