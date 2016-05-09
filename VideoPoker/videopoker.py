@@ -6,6 +6,9 @@ import os
 import random   
 import time
 
+"""
+@Class: Card
+"""
 class Card(object):
 
     """A card object with a suit and rank."""
@@ -24,7 +27,11 @@ class Card(object):
 
     def __str__(self):
         return ("(suit: %s, rank: %s)") % (self.suit,self.rank)
-
+        
+"""
+@Class: Deck
+Represents a deck of cards
+"""
 class Deck(object):
 
     def __init__(self):
@@ -33,11 +40,17 @@ class Deck(object):
             for rank in Card.ranks:
                 c = Card(rank, suit)
                 self.cards.append(c)
-
+    
     def shuffle(self):
         #shuffle the deck
         random.shuffle(self.cards)
-
+        
+    def popcard(self):
+        return self.cards.pop(0)
+        
+    def addcard(self,card):
+        return self.cards.append(card)
+    
     def deal(self):
         if len(self) == 0:
             return None
@@ -50,25 +63,66 @@ class Deck(object):
         return len(self.cards)
 
     def sort(self):
-        random.shuffle(self.cards)
+        self.cards = sorted(self.cards)
 
     def __str__(self):
         result = []
         for c in  self.cards:
             result.append(str(c))
         return "".join(result)
-
+        
+"""
+@Class: Hand
+Represents a hand of cards
+"""
 class Hand(object):
-    def __init__(self, deck):
-        if(len(deck) < 5):
-            print ("Not enough cards in deck!")
+    def __init__(self):
         self.cards = []
-        for i in range (5):
-            card = deck.deal()
-            self.cards.append(card)
-        self.rank = [0] * 14
-        self.suit = [0] * 4
-        self.process()
+        self.rankc = {}
+        self.suitc = {}
+        
+    def addCard(self,card):
+        if not card.suit in self.suitc:
+            self.suitc[card.suit] = 1
+        else:
+            self.suitc[card.suit] += 1
+            
+        if not card.rank in self.rankc:
+            self.rankc[card.rank] = 1
+        else:
+            self.rankc[card.rank] += 1
+            
+    def retrieve(self):
+        return self.cards
+        
+    def replace(self,card):
+        self.remove(self.cards)
+        self.addCart(card)
+    
+    def position(self,card):
+        return self.card.index(card)
+        
+    def remove(self,card):
+        if card.rank in self.rankc:
+            if self.rankc[card.rank] > 1:
+                self.rankc[card.rank] -= 1
+            else:
+                del self.rankc[card.rank]
+                
+        if card.suit in self.suitc:
+            if self.suitc[card.suit] > 1:
+                self.suitc[card.suit] -= 1
+            else:
+                del self.suitc[card.suit]
+
+    # if(len(deck) < 5):
+            #print ("Not enough cards in deck!")
+        #for i in range (5):
+           #card = deck.deal()
+            #self.cards.append(card)
+        #self.rank = [0] * 14
+        #self.suit = [0] * 4
+        #self.process()
 
     def __str__(self):
         result = []
@@ -79,7 +133,8 @@ class Hand(object):
     def sortHand(self):
         self.cards = sorted(self.cards)
 
-    def process(self):
+""" 
+   def process(self):
         for card in self.cards:
             rank = card.getRank()
             rankIndex = Card.RANKS.index(rank)
@@ -88,19 +143,23 @@ class Hand(object):
             suitIndex = Card.SUITS.index(suit)
             self._mysuits[suitIndex] += 1
         return self._myranks[rankIndex]
+"""
 
 class VideoPoker(object):
     def __init__(self):
         self.deck = Deck()
         self.hand = Hand()
         
-    #def deal(self, num =5):
-     #   self.deck.shuffle()
-      # for i in range(0,num):
-       #     self.hand.add(self.deal.pop())
-        #print(self.hand)
+    def deal(self):
+        self.deck.shuffle()
+        for i in range(0,5):
+            self.hand.add(self.deal.pop())
+        print(self.hand)
         #return self.hand
 
+    def get(self):
+        return self.deck.pop()
+    
     def checkHand(self):
         if royalFlush():
             return 800
