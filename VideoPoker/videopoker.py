@@ -1,4 +1,7 @@
-"""Keona Rollerson"""
+"""Keona Rollerson
+Excerpts from:http://stackoverflow.com/questions/22848207/poker-game-in-python
+"""
+
 import os
 import random   
 import time
